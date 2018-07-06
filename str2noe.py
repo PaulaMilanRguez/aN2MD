@@ -35,7 +35,7 @@ def parse_str(str_file, skip_HB, eliminate_res):
     fic = open(str_file, "r")
     found = False
     lines = []
-    eliminate = ["O", "N", "S"]
+    eliminate = ["O", "N", "S", "SG"]
     res_start = None
 
     for line in fic:
