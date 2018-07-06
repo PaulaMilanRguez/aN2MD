@@ -208,13 +208,13 @@ def Remove_repetitions(df_noes):
 
     df_noes = df_noes.drop(todel)
     df_noes = df_noes.sort_values(['AtomID1', 'AtomID2'])
-    return noes
+    return df_noes
 
 
 # In[19]:
 
 
-def noecombine(noe_df1, noe_df2, gro_file, deduplicate=True):
+def noecombine(noes_df1, noes_df2, gro_file, deduplicate=True):
     
     ''' This function controles NOECOMBINE scrip. It calls Combine(), 
     Search_atom_index(), Remove_repetitions() and Extend_noes() if required.
@@ -233,7 +233,7 @@ def noecombine(noe_df1, noe_df2, gro_file, deduplicate=True):
     '''
     
 
-    df_noes = Combining(noe_df1, noes_df2)
+    df_noes = Combining(noes_df1, noes_df2)
 
     if(deduplicate == True):
         df_noes = Extend_noes(df_noes, gro_file)
