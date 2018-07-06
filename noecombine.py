@@ -200,7 +200,6 @@ def Remove_repetitions(df_noes):
     return df_noes
 
 
-<<<<<<< HEAD
 # In[19]:
 
 
