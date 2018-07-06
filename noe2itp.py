@@ -12,6 +12,9 @@
 import pandas as pd
 import numpy as np
 
+"""
+"""
+
 
 def Assing_index(df_noes):   
     
@@ -99,7 +102,7 @@ def Assing_index(df_noes):
     return df_noes
 
 
-def Change_format(df_noes, itp_file):
+def write_itp(df_noes, itp_file):
     
     ''' It creates an .itp file available for GROMACS
     
@@ -113,30 +116,33 @@ def Change_format(df_noes, itp_file):
         NONE
     
     '''
-    
-    fic = open(itp_file, 'w')
-    fic.write('[ distance_restraints ]\n; ai\taj\ttype\tindex\ttype’\tlow\tup1\tup2\tfac\n')
-    
-    for row in df_noes.itertuples():
-        low = str(round((float(row.Distance) - float(row.Distance)/10)/10, 2))
-        up1 = str(round((float(row.Distance) + float(row.Distance)/10)/10, 2))
-        up2 = str(round((float(row.Distance) + 2*(float(row.Distance)/10))/10, 2))
-        
-        fic.write(str(row.AtomID1)+'\t')
-        fic.write(str(row.AtomID2)+'\t')
-        fic.write('1\t')
-        fic.write(str(row.index)+'\t')
-        fic.write('1\t')
-        fic.write(low+'\t')
-        fic.write(up1+'\t')
-        fic.write(up2+'\t')
-        fic.write('1.00\t')
-        fic.write(";\t")
-        fic.write(row.ResType1+str(row.ResID1)+"."+row.Atom1+"-"
-                  +row.ResType2+str(row.ResID2)+"."+row.Atom2+'\t')
-        fic.write(row.Distance+'\t\n')
 
-    fic.close()
+    ITP_FORMAT = """\
+{:<5d} {:<5d} {:4d} {:7d}    {:4d}  {:7.2f} {:7.2f} {:7.2f} {:7.2f}"""
+    COMMENT_FORMAT = """\
+      ; {:3s}{}.{:<4s}-{:3s}{}.{:<4s}  {:7.2f}  {:>6d} {:>3d} """
+
+    fo = open(itp_file, "w")
+    fo.write("[ distance_restraints ]\n")
+    fo.write("; ai   aj   type   index   type’      low     up1     up2     fac\n")
+
+    ## Settings
+    sorters = ["index", "ResID1", "ResID2"]
+    dfac = 0.1
+
+    # write a comment with original names for future reference
+    for i, row in cons.sort_values(sorters).iterrows():
+    # 10     16      1       0       1      0.0     0.3     0.4     1.0
+        dist = row.Distance / 10
+        fo.write(
+            (ITP_FORMAT + COMMENT_FORMAT + "\n").format(
+                row.AtomID1+1, row.AtomID2+1, 1, row["index"], 1, 
+                (1.-dfac)*dist, (1.+dfac)*dist, (1.+2*dfac)*dist, 1.0,
+                row.ResType1, row.ResID1, row.Atom1, 
+                row.ResType2, row.ResID2, row.Atom2, 
+                dist, i, row.Origin
+            ))
+    fo.close()
 
 
 def noe2itp(df_noes, itp_file= None):
@@ -158,6 +164,6 @@ def noe2itp(df_noes, itp_file= None):
     df_noes = Assing_index(df_noes)
     
     if itp_file != None:
-        Change_format(df_noes, itp_file)
+        write_itp(df_noes, itp_file)
     return df_noes
 
