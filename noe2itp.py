@@ -1,18 +1,16 @@
-
-# coding: utf-8
-
-# ## Import
-
-# In[1]:
-
-
+#  File: noe2itp.py 
+#
+#  Copyright (C) 2018 Paula Milan Rodriguez, Marco Pasi
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+# "noe2itp.py v0.1 (C) 2018 Paula Milan Rodriguez, Marco Pasi"
+#
 import pandas as pd
 import numpy as np
-
-
-# # NOE 2 ITP
-
-# In[18]:
 
 
 def Assing_index(df_noes):   
@@ -101,9 +99,6 @@ def Assing_index(df_noes):
     return df_noes
 
 
-# In[15]:
-
-
 def Change_format(df_noes, itp_file):
     
     ''' It creates an .itp file available for GROMACS
@@ -142,9 +137,6 @@ def Change_format(df_noes, itp_file):
         fic.write(row.Distance+'\t\n')
 
     fic.close()
-
-
-# In[17]:
 
 
 def noe2itp(df_noes, itp_file= None):

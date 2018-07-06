@@ -1,20 +1,18 @@
-
-# coding: utf-8
-
-# ## Import  
-
-# In[8]:
-
-
+#  File: str2noe.py 
+#
+#  Copyright (C) 2018 Paula Milan Rodriguez, Marco Pasi
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+# "str2noe.py v0.1 (C) 2018 Paula Milan Rodriguez, Marco Pasi"
+#
 import pandas as pd
 import re
 import mdtraj as md
 import numpy as np
-
-
-# # STR2NOE
-
-# In[7]:
 
 
 def parse_str(str_file, skip_HB, eliminate_res):
@@ -89,9 +87,6 @@ def parse_str(str_file, skip_HB, eliminate_res):
     return df_noes
 
 
-# In[10]:
-
-
 def naming(df_noes, res_names, delta_resid, atom_names):
     
     ''' This function serves to change the naming of the chosen residues or 
@@ -134,9 +129,6 @@ def naming(df_noes, res_names, delta_resid, atom_names):
         df_noes.loc[df_noes.index == row.Index, 'ResID2'] = int(row.ResID2)+delta_resid
     
     return df_noes
-
-
-# In[5]:
 
 
 def str2noe(str_file, skip_HB = True, eliminate_res = [], change_naming = False,

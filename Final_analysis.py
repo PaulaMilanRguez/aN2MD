@@ -1,10 +1,14 @@
-
-# coding: utf-8
-
-# # Load
-
-# In[2]:
-
+#  File: Final_analysis.py 
+#
+#  Copyright (C) 2018 Paula Milan Rodriguez, Marco Pasi
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+# "Final_analysis.py v0.1 (C) 2018 Paula Milan Rodriguez, Marco Pasi"
+#
 
 import re
 import numpy as np
@@ -17,7 +21,7 @@ from matplotlib import gridspec
 
 
 # # File Analysis
-
+#
 # 1. Chose a type of analysis: structure (only .gro needed) or simulation (.gro + .xtc)
 # 2. Convert .itp to dataframe (.itp needed)
 # 3. Search itp NOEs in the structure/simulation
@@ -26,9 +30,6 @@ from matplotlib import gridspec
 #     30% by default
 # 6. Extract violations
 # 7. Create plot
-
-# In[76]:
-
 
 def Search_violations(name_itp, name_gro, name_xtc= '', option = 0, rang = 30,
                       skip=200, strd=100, name_work='results'):
@@ -91,9 +92,6 @@ def Read_itp(name_itp, name_gro):
     return df_comp
 
 
-# In[34]:
-
-
 def Ana_gro(name_itp, name_gro, rang):
     
     df_noes = Read_itp(name_itp, name_gro)
@@ -122,9 +120,6 @@ def Ana_gro(name_itp, name_gro, rang):
             
     
     return df_noes
-
-
-# In[72]:
 
 
 def Ana_xtc(name_itp, name_gro, name_xtc, option, rang, skip, strd):
@@ -180,18 +175,12 @@ def Ana_xtc(name_itp, name_gro, name_xtc, option, rang, skip, strd):
     return df_noes
 
 
-# In[66]:
-
-
 def Extract_viol(comp, title):
 
     v = comp[comp.Violation=='Viol']
     v = v[v.Distance > 5.5]
     pd.DataFrame.to_csv(v, title+'_violations')
     return v
-
-
-# In[37]:
 
 
 def Classify_viol(comp, name_fig):
@@ -264,9 +253,6 @@ def Classify_viol(comp, name_fig):
     
     Violations_plot(distantxR, distantyR, distantxV, distantyV, distantxO, 
                     distantyO, closedR, closedV, closedO, name_fig)
-
-
-# In[69]:
 
 
 def Violations_plot(x1, y1, x2, y2, xO, yO, cR, cV, cO, title):  
@@ -377,81 +363,7 @@ def Violations_plot(x1, y1, x2, y2, xO, yO, cR, cV, cO, title):
                 bbox_inches= 'tight' )
 
 
-# # RMSD
-
-# In[11]:
-
-
-#traj = md.load_xtc('pi10.2_1MFS.xtc', 'pi_1MFS.gro', stride=100)
-#top = traj.top
-
-mainchain = traj.atom_slice(top.select("resid 0 to 57 and (name CA or name C or name N or name O)"))
-rmsd_com = md.rmsd(mainchain, mainchain)
-plt.plot(rmsd_com*10, c= "#000000")
-rmsd_linker = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 28 to 34")), mainchain.atom_slice(mainchain.top.select("resid 28 to 34")))
-plt.plot(rmsd_linker*10, color="#f9e531")
-#rmsd_NTerm = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 0 to 13")), mainchain.atom_slice(mainchain.top.select("resid 0 to 13")))
-#plt.plot(rmsd_NTerm*10, color="#5dcc14")
-#rmsd_CTerm = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 49 to 54")), mainchain.atom_slice(mainchain.top.select("resid 49 to 54")))
-#plt.plot(rmsd_CTerm*10, color="#3b840a")
-rmsd_Body = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 13 to 48")), mainchain.atom_slice(mainchain.top.select("resid 13 to 48")))
-plt.plot(rmsd_Body*10, color="#f7762b")
-rmsd_ZF1 = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 14 to 27")), mainchain.atom_slice(mainchain.top.select("resid 14 to 27")))
-plt.plot(rmsd_ZF1*10, color="#61e0f9")
-rmsd_ZF2 = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 35 to 48")), mainchain.atom_slice(mainchain.top.select("resid 35 to 48")))
-plt.plot(rmsd_ZF2*10, color="#6075f9")
-#rmsd_Extr = md.rmsd(mainchain.atom_slice(mainchain.top.select("resid 0 to 13 or resid 49 to 54")), mainchain.atom_slice(mainchain.top.select("resid 0 to 13 or resid 49 to 54")))
-#plt.plot(rmsd_Extr*10, color="#f72c76")
-plt.xlabel("Time (ns)", fontsize=16)
-plt.ylabel("RMSD (A)", fontsize=16)
-plt.axis([0, 1000, 0, 16])
-
-plt.tight_layout()
-#plt.savefig("RMSD_sim1MFS.png", dpi =300)
-#plt.clf()
-
-
-# In[18]:
-
-
-mainchain = traj.atom_slice(top.select("resid 0 to 57 and (name CA or name C or name N or name O)"))
-mainchain
-
-
-# # Rayon de gyration
-
-# In[80]:
-
-
-rg_com = md.compute_rg(mainchain)
-plt.plot(rg_com*10, c= "#000000")
-rg_linker = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 28 to 34")))
-plt.plot(rg_linker*10, color="#f9e531")
-#rg_NTerm = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 0 to 13")))
-#plt.plot(rg_NTerm*10, color="#5dcc14")
-#rg_CTerm = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 49 to 54")))
-#plt.plot(rg_CTerm*10, color="#3b840a")
-rg_Body = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 13 to 48")))
-plt.plot(rg_Body*10, color="#f7762b")
-rg_ZF1 = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 14 to 27")))
-plt.plot(rg_ZF1*10, color="#61e0f9")
-rg_ZF2 = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 35 to 48")))
-plt.plot(rg_ZF2*10, color="#6075f9")
-#rg_Extr = md.compute_rg(mainchain.atom_slice(mainchain.top.select("resid 0 to 13 or resid 49 to 54")))
-#plt.plot(rg_Extr*10, color="#f72c76")
-plt.xlabel("Time (ns)", fontsize=16)
-plt.ylabel("Radius of Gyration (A)", fontsize=16)
-plt.axis([0, 800, 0, 16])
-plt.tight_layout()
-plt.savefig("RG_sim_800.png", dpi =300)
-
-
-# # Main
-
-# In[77]:
-
-
-df_noes, df_viol = Search_violations('noeres.itp', 'pi_1MFS.gro', 'pi10.2_1MFS.xtc'
-                                     ,option = 3, rang = 30, skip = 200,strd=100,
-                                     name_work='test_inutil')
+# df_noes, df_viol = Search_violations('noeres.itp', 'pi_1MFS.gro', 'pi10.2_1MFS.xtc'
+#                                      ,option = 3, rang = 30, skip = 200,strd=100,
+#                                      name_work='test_inutil')
 

@@ -1,20 +1,18 @@
-
-# coding: utf-8
-
-# ## Import
-
-# In[4]:
-
-
+#  File: noecombine.py 
+#
+#  Copyright (C) 2018 Paula Milan Rodriguez, Marco Pasi
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+# "noecombine.py v0.1 (C) 2018 Paula Milan Rodriguez, Marco Pasi"
+#
 import pandas as pd
 import re
 import mdtraj as md
 import numpy as np
-
-
-# # NOE COMBINE
-
-# In[12]:
 
 
 def Combining(noes_df1, noes_df2):
@@ -41,9 +39,6 @@ def Combining(noes_df1, noes_df2):
     df_noes  = [noes_df1, noes_df2]
     df_noes = pd.concat(df_noes)
     return df_noes
-
-
-# In[14]:
 
 
 def Extend_noes(df_noes, gro_file):
@@ -140,9 +135,6 @@ def Extend_noes(df_noes, gro_file):
     return df_noes
 
 
-# In[15]:
-
-
 def Search_atom_index(df_noes, gro_file):
    
     ''' Assing the topology index to each atom
@@ -180,9 +172,6 @@ def Search_atom_index(df_noes, gro_file):
     return df_noes
 
 
-# In[16]:
-
-
 def Remove_repetitions(df_noes):
     
     ''' Deduplicate constraints. Only the fist to appear in the dataframe is
@@ -211,10 +200,12 @@ def Remove_repetitions(df_noes):
     return df_noes
 
 
+<<<<<<< HEAD
 # In[19]:
 
 
 def noecombine(noes_df1, noes_df2, gro_file, deduplicate=True):
+
     
     ''' This function controles NOECOMBINE scrip. It calls Combine(), 
     Search_atom_index(), Remove_repetitions() and Extend_noes() if required.
