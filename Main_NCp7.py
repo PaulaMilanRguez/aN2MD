@@ -4,7 +4,7 @@
 import str2noe as s2n
 import noecombine as nc
 import noe2itp as n2i
-
+import searchviolations as sv
 
 ############################# MAIN ######################################
 
@@ -39,6 +39,6 @@ print(noes.head(5))
 		#### VIOLATIONS ANALYSIS ####
 
 # First, we search for the distances that corresponds to the NOEs pairs in the simulation.
-# We compare them with the NMR distance to determinate if the NOE is respected or violated (SEARCH_VIOLATIONS MODULE)
+# We compare them with the NMR distance to determinate if the NOE is respected or violated (SEARCHVIOLATIONS MODULE)
 
-noes = Search_violations('ncp7_noes.itp', 'pi.gro', 'pi100.2.xtc',option = 3)
+noes = sv.Search_violations('ncp7_noes.itp', 'pi.gro', 'pi100.2.xtc',option = 3)
