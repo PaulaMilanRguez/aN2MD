@@ -6,9 +6,12 @@ import noecombine as nc
 import noe2itp as n2i
 
 
-#### MAIN ####
+############################# MAIN ######################################
 
 ## This Main is an example of how to use aN2MD program. NCp7 protein is used in this case.
+
+		
+		#### HOW TO GET AN .ITP FILE ####
 
 
 # Using STR2NOE module to obtain two dataframes from two .str: some residues are removed and 
@@ -31,3 +34,11 @@ noes = nc.noecombine(noes_1esk, noes_1mfs, gro_file = '1esk_md.gro')
 
 noes = n2i.noe2itp(noes, itp_file= 'ncp7_noes.itp')
 print(noes.head(5))
+
+
+		#### VIOLATIONS ANALYSIS ####
+
+# First, we search for the distances that corresponds to the NOEs pairs in the simulation.
+# We compare them with the NMR distance to determinate if the NOE is respected or violated (SEARCH_VIOLATIONS MODULE)
+
+noes = Search_violations('ncp7_noes.itp', 'pi.gro', 'pi100.2.xtc',option = 3)
