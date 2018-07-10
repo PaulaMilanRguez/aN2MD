@@ -51,5 +51,5 @@ viol = numr.numresults(noes)
 
 # Finally, it is possible to obtain a graphical representation of the violations analysis using VIOLATIONS_PLOT module:
 
-viplot.violations_plot(ana_noes)
+viplot.Violations_plot(ana_noes)
 
