@@ -9,25 +9,24 @@
 #
 # "noe2itp.py v0.1 (C) 2018 Paula Milan Rodriguez, Marco Pasi"
 #
-import pandas as pd
+
 import numpy as np
 
 """
 """
 
 
-def Assing_index(df_noes):   
-    
+def Assing_index(df_noes):
     ''' Assing an .itp index to each NOE distance (required by GROMACS)
-    
+
     Input:
-    
+
         - df_noes (pandas dataframe): NOE distances dataframe
 
     Output:
-    
+
         - df_noes (pandas dataframe) : NOE distances modified dataframe
-    
+
     '''
 
     # pre-assign dummy index
@@ -74,7 +73,7 @@ def Assing_index(df_noes):
 
         # 4) assing index to matching lines
         L = J & K & L
-        if not row.name in df_noes[L].index:  # assert current row in match !
+        if row.name not in df_noes[L].index:  # assert current row in match !
             print(row)
             print(df_noes[L])
             raise ValueError("Current row not in match !?")
@@ -103,18 +102,16 @@ def Assing_index(df_noes):
 
 
 def write_itp(df_noes, itp_file):
-    
     ''' It creates an .itp file available for GROMACS
-    
+
     Input:
-        
+
         - df_noes (pandas dataframe): NOE distances dataframe
         - itp_file (str): name of the .itp file that will be created
-    
+
     Output:
-    
+
         NONE
-    
     '''
 
     ITP_FORMAT = """\
@@ -126,44 +123,41 @@ def write_itp(df_noes, itp_file):
     fo.write("[ distance_restraints ]\n")
     fo.write("; ai   aj   type   index   type’      low     up1     up2     fac\n")
 
-    ## Settings
+    # Settings
     sorters = ["index", "ResID1", "ResID2"]
     dfac = 0.1
 
     # write a comment with original names for future reference
-    for i, row in cons.sort_values(sorters).iterrows():
-    # 10     16      1       0       1      0.0     0.3     0.4     1.0
+    for i, row in df_noes.sort_values(sorters).iterrows():
+        # 10     16      1       0       1      0.0     0.3     0.4     1.0
         dist = row.Distance / 10
         fo.write(
             (ITP_FORMAT + COMMENT_FORMAT + "\n").format(
-                row.AtomID1+1, row.AtomID2+1, 1, row["index"], 1, 
+                row.AtomID1+1, row.AtomID2+1, 1, row["index"], 1,
                 (1.-dfac)*dist, (1.+dfac)*dist, (1.+2*dfac)*dist, 1.0,
-                row.ResType1, row.ResID1, row.Atom1, 
-                row.ResType2, row.ResID2, row.Atom2, 
+                row.ResType1, row.ResID1, row.Atom1,
+                row.ResType2, row.ResID2, row.Atom2,
                 dist, i, row.Origin
             ))
     fo.close()
 
 
-def noe2itp(df_noes, itp_file= None):
-    
+def noe2itp(df_noes, itp_file=None):
     ''' This function controles NOE2ITP scrip. It calls Assing_index() and 
     Change_format() if required.
-    
+
     Input
-    
+
         - df_noes (pandas dataframe): NOE distances dataframe
         - itp_file (str; default: None): name of the .itp file that will be created
-    
+
     Output:
-        
-        - df_noes (pandas dataframe) : NOE distances modified dataframe        
-    
+
+        - df_noes (pandas dataframe) : NOE distances modified dataframe
     '''
-    
+
     df_noes = Assing_index(df_noes)
-    
-    if itp_file != None:
+
+    if itp_file is not None:
         write_itp(df_noes, itp_file)
     return df_noes
-
