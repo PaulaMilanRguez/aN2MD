@@ -202,7 +202,7 @@ def Plot_viol(x1, y1, x2, y2, xO, yO, cR, cV, cO, title, ncp7, res_max):
     plt.close()
 
 
-def violations_plot(df_noes, title= 'Violations_plot.png', ncp7=True, res_max=0):
+def Violations_plot(df_noes, title= 'Violations_plot.png', ncp7=True, res_max=0):
 
     Classify_viol(df_noes, title, ncp7, res_max)
     

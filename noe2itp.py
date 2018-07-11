@@ -130,7 +130,7 @@ def write_itp(df_noes, itp_file):
     # write a comment with original names for future reference
     for i, row in df_noes.sort_values(sorters).iterrows():
         # 10     16      1       0       1      0.0     0.3     0.4     1.0
-        dist = row.Distance / 10
+        dist = float(row.Distance) / 10
         fo.write(
             (ITP_FORMAT + COMMENT_FORMAT + "\n").format(
                 row.AtomID1+1, row.AtomID2+1, 1, row["index"], 1,

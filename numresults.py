@@ -20,7 +20,7 @@ def Extract_viol(df_noes, title, limit_55):
     df_viol = df_noes[df_noes.Violation == 'Viol']
 
     if(limit_55):
-        df_viol = df_viol[df_noes.Distance > 5.5]
+        df_viol = df_viol[df_viol.Distance > 5.5]
 
     pd.DataFrame.to_csv(df_viol, title)
     

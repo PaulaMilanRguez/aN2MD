@@ -157,11 +157,11 @@ def Search_atom_index(df_noes, gro_file):
         if len(ai) == 0:
             ai = -1
         else:
-            ai = ai[0]+1
+            ai = ai[0]
         if len(aj) == 0:
             aj = -1
         else:
-            aj = aj[0]+1
+            aj = aj[0]
 
         AtomID1.append(ai)
         AtomID2.append(aj)
