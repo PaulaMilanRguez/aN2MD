@@ -129,7 +129,6 @@ def Extend_noes(df_noes, gro_file):
 
     df_noes = df_noes.drop(todel)
     df_noes = df_noes.append(toadd, ignore_index=True)
-
     df_noes = df_noes.sort_values(['ResID1', 'ResID2'])
 
     return df_noes
@@ -163,11 +162,39 @@ def Search_atom_index(df_noes, gro_file):
         else:
             aj = aj[0]
 
-        AtomID1.append(ai)
-        AtomID2.append(aj)
+        AtomID1.append(int(ai))
+        AtomID2.append(int(aj))
 
     df_noes['AtomID1'] = AtomID1
     df_noes['AtomID2'] = AtomID2
+
+    todel = []
+    toadd = []
+
+    for i, row in df_noes.iterrows():
+        if int(row.AtomID1) > int(row.AtomID2):
+            newrow = row.copy()
+            rid1 = row.ResID1
+            rt1 = row.ResType1
+            a1 = row.Atom1
+            aid1 = row.AtomID1
+
+            newrow.ResID1 = row.ResID2
+            newrow.ResType1 = row.ResType2
+            newrow.Atom1 = row.Atom2
+            newrow.AtomID1 = row.AtomID2
+
+            newrow.ResID2 = rid1
+            newrow.ResType2 = rt1
+            newrow.Atom2 = a1
+            newrow.AtomID2 = aid1
+            
+            todel.append(i)
+            toadd.append(newrow)
+
+    df_noes = df_noes.drop(todel)
+    df_noes = df_noes.append(toadd, ignore_index=True)   
+           	
     return df_noes
 
 

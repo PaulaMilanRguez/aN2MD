@@ -48,7 +48,7 @@ def parse_str(str_file, skip_HB, eliminate_res):
             if line != "\n":
                 info = line.split()
 
-                if info[7] > info[17]:
+                if int(info[7]) > int(info[17]):
                     r1 = info[17]
                     t1 = info[18]
                     a1 = info[19]

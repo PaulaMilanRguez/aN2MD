@@ -124,7 +124,7 @@ def write_itp(df_noes, itp_file):
     fo.write("; ai   aj   type   index   type’      low     up1     up2     fac\n")
 
     # Settings
-    sorters = ["index", "ResID1", "ResID2"]
+    sorters = ["index", "AtomID1", "AtomID2"]
     dfac = 0.1
 
     # write a comment with original names for future reference
