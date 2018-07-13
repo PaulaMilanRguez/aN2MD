@@ -31,10 +31,10 @@ correctly installed.
 
 1. Clone the github directory (requires git).
 
-'''
+```
 mkdir aN2MD
 git clone https://github.com/PaulaMilanRguez/aN2MD.git aN2MD
-'''
+```
 
 No further installation is required to run the program. 
 
@@ -43,9 +43,9 @@ No further installation is required to run the program.
 
 Run the program Main_NCp7.py to test the installation 
 
-'''
+```
 python3 Main_NCp7.py
-'''
+```
 
 
 ## Changelog
