@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 
 
-def Extract_viol(df_noes, title, limit_55):
+def Extract_viol(df_noes, title, limit_55=True):
 
     df_viol = df_noes[df_noes.Violation == 'Viol']
 
